@@ -1,5 +1,6 @@
 import os
 import requests
+import pandas as pd
 
 class Genius:
     BASE_URL = "https://api.genius.com"
@@ -26,14 +27,14 @@ class Genius:
         artist_id = hits[0]["result"]["primary_artist"]["id"]
         artist_data = self._get(f"/artists/{artist_id}")
         return artist_data["response"]["artist"]
-        def get_artists(self, search_terms):
-            rows = []
-            for term in search_terms:
-                artist = self.get_artist(term)
-                rows.append({
-                    "search_term": term,
-                    "artist_name": artist.get("name"),
-                    "artist_id": artist.get("id"),
-                    "followers_count": artist.get("followers_count")
+    def get_artists(self, search_terms):
+        rows = []
+        for term in search_terms:
+            artist = self.get_artist(term)
+            rows.append({
+                "search_term": term,
+                "artist_name": artist.get("name"),
+                "artist_id": artist.get("id"),
+                "followers_count": artist.get("followers_count")
             })
         return pd.DataFrame(rows)
